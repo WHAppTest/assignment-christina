@@ -30,7 +30,7 @@ class ListUseCaseModel : BaseUseCaseModel<ListUseCaseState>() {
                         channel.send(this)
                     }
                 } catch (e: Exception) {
-                    ListUseCaseState.Error(e.message).apply {
+                    ListUseCaseState.Error(e.message ?: e.toString()).apply {
                         channel.send(this)
                     }
                 }

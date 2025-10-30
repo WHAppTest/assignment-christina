@@ -30,7 +30,7 @@ class DetailUseCaseModel : BaseUseCaseModel<DetailUseCaseState>() {
                         channel.send(this)
                     }
                 } catch (e: Exception) {
-                    DetailUseCaseState.Error(e.message).apply {
+                    DetailUseCaseState.Error(e.message ?: e.toString()).apply {
                         channel.send(this)
                     }
                 }
