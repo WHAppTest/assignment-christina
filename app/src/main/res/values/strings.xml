@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Applicants test project</string>
+    <string name="loading_view_text">Loading Data</string>
+</resources>
