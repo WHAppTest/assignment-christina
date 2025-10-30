@@ -10,7 +10,11 @@ class DetailUseCase(private val client: OkHttpClient, private val gson: Gson) {
     fun getDetailModel(title: String): DetailModel {
         val url =
             "https://en.wikipedia.org/w/api.php?action=parse&prop=text&page=$title&format=json"
-        val request = Request.Builder().url(url).build()
+        val request = Request
+            .Builder()
+            .url(url)
+            .addHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36")
+            .build()
         val response = client.newCall(request).execute()
 
         return gson.fromJson(response.body?.string(), DetailModel::class.java)
