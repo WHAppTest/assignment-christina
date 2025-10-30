@@ -8,12 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/listLoadingView"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/teal_700"
-        android:gravity="center"
-        android:visibility="visible"
-        android:text="@string/loading_view_text" />
+        android:layout_height="match_parent" />
 </FrameLayout>

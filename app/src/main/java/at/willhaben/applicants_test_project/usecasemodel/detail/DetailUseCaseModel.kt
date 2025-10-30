@@ -21,7 +21,7 @@ class DetailUseCaseModel : BaseUseCaseModel<DetailUseCaseState>() {
                 lastState?.let { state -> channel.send(state) }
             }
         } else {
-            launch {
+            launch(Dispatchers.IO) {
                 lastState = DetailUseCaseState.Loading.apply {
                     channel.send(this)
                 }

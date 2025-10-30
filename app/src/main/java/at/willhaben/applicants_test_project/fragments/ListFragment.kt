@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.
 import at.willhaben.applicants_test_project.MainActivity
 import at.willhaben.applicants_test_project.OpenDetailsScreenCallback
 import at.willhaben.applicants_test_project.R
+import at.willhaben.applicants_test_project.compose.ListLoadingView
 import at.willhaben.applicants_test_project.databinding.FragmentListBinding
 import at.willhaben.applicants_test_project.listview.ListViewAdapter
 import at.willhaben.applicants_test_project.usecasemodel.list.ListUseCaseModel
@@ -29,6 +32,9 @@ class ListFragment : BaseFragment() {
 
     private lateinit var openDetailsScreenCallback: OpenDetailsScreenCallback
     private lateinit var listViewAdapter: ListViewAdapter
+
+    val composeView = view?.findViewById<ComposeView>(R.id.compose_view)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,12 +94,27 @@ class ListFragment : BaseFragment() {
             }
 
             is ListUseCaseState.Loaded -> {
-                binding.listLoadingView.visibility = View.GONE
+                //binding.listLoadingView.visibility = View.GONE
+                // Add Compose view to existing XML and refer to it with binding.composeView
+                binding.composeView.apply {
+                    setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+                    setContent {
+                        ListLoadingView()
+                    }
+                    visibility = View.GONE
+                }
                 listViewAdapter.setItems(state.models.query?.search ?: emptyList())
             }
 
             ListUseCaseState.Loading -> {
-                binding.listLoadingView.visibility = View.VISIBLE
+                binding.composeView.apply {
+                    setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+                    setContent {
+                        ListLoadingView()
+                    }
+                    visibility = View.VISIBLE
+                }
+                //binding.listLoadingView.visibility = View.VISIBLE
             }
         }
     }
